@@ -3,22 +3,14 @@ defmodule PalantirpayWeb.UsersController do
 
   alias Palantirpay.User
 
+  action_fallback PalantirpayWeb.FallbackController
+
   def create(conn, params) do
-    params
-    |> Palantirpay.create_user()
-    |> handleResponse(conn)
+    with {:ok, %User{} = user} <- Palantirpay.create_user(params) do
+      conn
+      |> put_status(:created)
+      |> render("create.json", user: user)
 
-  end
-
-  defp handleResponse({:ok, %User{} = user}, conn) do
-    conn
-    |> put_status(:created)
-    |> render("create.json", user: user)
-  end
-
-  defp handleResponse({:error, reason}, conn) do
-    conn
-    |> put_status(:bad_request)
-    |> json(reason)
+    end
   end
 end
