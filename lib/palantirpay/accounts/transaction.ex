@@ -3,6 +3,7 @@ defmodule Palantirpay.Accounts.Transaction do
   alias Ecto.Multi
 
   alias Palantirpay.Accounts.Operation
+  alias Palantirpay.Accounts.Transactions.Response, as: TransactionResponse
   alias Palantirpay.Repo
 
   def call(%{"from" => from_id, "to" => to_id, "value" => value}) do
@@ -22,7 +23,7 @@ defmodule Palantirpay.Accounts.Transaction do
       {:error, _operation, reason, _changes} -> {:error, reason}
 
       {:ok, %{deposit: to_account, withdraw: from_account}} ->
-        {:ok,  %{to_account: to_account, from_account: from_account}}
+        {:ok, TransactionResponse.build(from_account, to_account)}
     end
   end
 

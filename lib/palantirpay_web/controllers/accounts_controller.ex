@@ -2,6 +2,7 @@ defmodule PalantirpayWeb.AccountsController do
   use PalantirpayWeb, :controller
 
   alias Palantirpay.Account
+  alias Palantirpay.Accounts.Transactions.Response, as: TransactionResponse
 
   action_fallback PalantirpayWeb.FallbackController
 
@@ -22,4 +23,14 @@ defmodule PalantirpayWeb.AccountsController do
 
     end
   end
+
+  def transaction(conn, params) do
+    with {:ok, %TransactionResponse{} = transaction} <- Palantirpay.transaction(params) do
+      conn
+      |> put_status(:ok)
+      |> render("transaction.json", transaction: transaction)
+
+    end
+  end
+
 end
