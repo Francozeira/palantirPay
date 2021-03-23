@@ -1,8 +1,14 @@
 defmodule PalantirpayWeb.Router do
   use PalantirpayWeb, :router
 
+  import Plug.BasicAuth
+
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  pipeline :auth do
+    plug :basic_auth, Application.compile_env(:palantirpay, :basic_auth)
   end
 
   scope "/api", PalantirpayWeb do
@@ -11,6 +17,10 @@ defmodule PalantirpayWeb.Router do
     get "/:filename", WelcomeController, :index
 
     post "/users", UsersController, :create
+  end
+
+  scope "/api", PalantirpayWeb do
+    pipe_through [:api, :auth]
 
     post "/accounts/:id/deposit", AccountsController, :deposit
 

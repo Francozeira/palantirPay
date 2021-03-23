@@ -22,6 +22,10 @@ config :palantirpay, Palantirpay.Repo,
   migration_primary_key: [type: :binary_id],
   migration_foreign_key: [type: :binary_id]
 
+config :palantirpay, :basic_auth,
+  username: "john_doe",
+  password: "bolovo"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
