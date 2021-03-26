@@ -1,5 +1,5 @@
 defmodule Palantirpay.Users.CreateTest do
-  use Palantirpay.DataCase
+  use Palantirpay.DataCase, async: true
 
   alias Palantirpay.User
   alias Palantirpay.Users.Create

@@ -1,5 +1,5 @@
 defmodule Palantirpay.AccountsControllerTest do
-  use PalantirpayWeb.ConnCase
+  use PalantirpayWeb.ConnCase, async: true
 
   alias Palantirpay.{Account, User}
 
